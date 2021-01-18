@@ -69,6 +69,12 @@ target_link_libraries(Leapp PUBLIC ${LEAPSDK_LIBS})
 target_include_directories(Leapp PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_sources(Leapp PRIVATE ${LEAPP_FILES})
 
+# Build the examples
+option(LEAPP_BUILD_EXAMPLES "Build examples" ON)
+if (LEAPP_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()
+
 ########################
 # Leapp - Installation #
 ########################
