@@ -10,7 +10,7 @@ Connection::Connection() {
   const auto connectionStatus = static_cast<Result>(LeapCreateConnection(nullptr, &m_connection));
 
   if (connectionStatus != Result::SUCCESS)
-    std::cerr << "[Leapp] Error: Failed to create connection (" << recoverResultStr(connectionStatus) << ')';
+    std::cerr << "[Leapp] Error: Failed to create connection (" << recoverResultStr(connectionStatus) << ")\n";
 
   open();
   poll(); // Polling once to complete connection
@@ -20,7 +20,7 @@ void Connection::open() const {
   const auto connectionStatus = static_cast<Result>(LeapOpenConnection(m_connection));
 
   if (connectionStatus != Result::SUCCESS)
-    std::cerr << "[Leapp] Error: Failed to open connection (" << recoverResultStr(connectionStatus) << ')';
+    std::cerr << "[Leapp] Error: Failed to open connection (" << recoverResultStr(connectionStatus) << ")\n";
 }
 
 EventType Connection::poll() const {
@@ -28,7 +28,7 @@ EventType Connection::poll() const {
   const auto pollStatus = static_cast<Result>(LeapPollConnection(m_connection, 250, &message));
 
   if (pollStatus != Result::SUCCESS)
-    std::cerr << "[Leapp] Error: Failed to poll connection (" << recoverResultStr(pollStatus) << ')';
+    std::cerr << "[Leapp] Error: Failed to poll connection (" << recoverResultStr(pollStatus) << ")\n";
 
   return static_cast<EventType>(message.type);
 }
