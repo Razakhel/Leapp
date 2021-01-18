@@ -51,12 +51,14 @@ void Connection::open() const {
     std::cerr << "[Leapp] Error: Failed to open connection (" << recoverLeapErrorStr(connectionStatus) << ')';
 }
 
-void Connection::poll() const {
+EventType Connection::poll() const {
   LEAP_CONNECTION_MESSAGE message {};
   const eLeapRS pollStatus = LeapPollConnection(m_connection, 250, &message);
 
   if (pollStatus != eLeapRS_Success)
     std::cerr << "[Leapp] Error: Failed to poll connection (" << recoverLeapErrorStr(pollStatus) << ')';
+
+  return static_cast<EventType>(message.type);
 }
 
 void Connection::close() const {
