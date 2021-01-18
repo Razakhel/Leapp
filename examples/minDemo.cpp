@@ -6,14 +6,24 @@
 int main() {
   Leapp::Connection connection;
 
-  auto devices = Leapp::Device::recoverDevices(connection);
+  auto deviceRefs = Leapp::Device::recoverDevices(connection);
 
-  if (devices.empty()) {
+  if (deviceRefs.empty()) {
     std::cout << "No device detected\n";
   } else {
     std::cout << "Devices:\n";
-    for (auto&& device : devices)
-      std::cout << '\t' << device.id << '\n';
+
+    for (auto&& deviceRef : deviceRefs) {
+      const Leapp::Device device(deviceRef);
+      const Leapp::DeviceInfo deviceInfo = device.recoverInfo();
+
+      std::cout << "- Device " << deviceRef.id << ":\n";
+      std::cout << "\tBaseline:   " << deviceInfo.baseline << '\n';
+      std::cout << "\tSerial:     " << deviceInfo.serial << '\n';
+      std::cout << "\tHoriz. FoV: " << deviceInfo.horizontalFov << '\n';
+      std::cout << "\tVert. FoV:  " << deviceInfo.verticalFov << '\n';
+      std::cout << "\tRange:      " << deviceInfo.range << "\n\n";
+    }
   }
 
   bool isTracking = false;

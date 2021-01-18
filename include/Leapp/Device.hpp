@@ -4,6 +4,7 @@
 #define LEAPP_DEVICE_HPP
 
 #include <cstdint>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -14,20 +15,29 @@ namespace Leapp {
 
 class Connection;
 
-/// Leap structure holding device information.
-struct DeviceInfo {
+/// Leap structure holding a device reference.
+struct DeviceRef {
   void* handle; ///< Opaque device handle.
   uint32_t id; ///< Device index.
 };
 
+/// Structure holding information on a device.
+struct DeviceInfo {
+  uint32_t baseline;   ///< Device baseline (distance between each camera lens) in micrometers.
+  std::string serial;  ///< Serial number string.
+  float horizontalFov; ///< Horizontal field of view in radians.
+  float verticalFov;   ///< Vertical field of view in radians.
+  uint32_t range;      ///< Maximum device range in micrometers.
+};
+
 class Device {
 public:
-  /// Opens a specific device based on the given information structure.
+  /// Opens a specific device based on the given reference structure.
   /// \see recoverDevices()
-  /// \param deviceInfo Information to open the device from.
-  explicit Device(const DeviceInfo& info) { open(info); }
-  /// Opens the first detected device. To open a specific one, use the constructor taking a DeviceInfo.
-  /// \see Device(const DeviceInfo&)
+  /// \param ref Reference to open the device from.
+  explicit Device(const DeviceRef& deviceRef) { open(deviceRef); }
+  /// Opens the first detected device. To open a specific one, use the constructor taking a DeviceRef.
+  /// \see Device(const DeviceRef&)
   /// \param connection Current opened connection.
   explicit Device(const Connection& connection);
   Device(const Device&) = delete;
@@ -35,17 +45,19 @@ public:
 
   LEAP_DEVICE getDevice() const noexcept { return m_device; }
 
-  void open(const DeviceInfo& info);
+  void open(const DeviceRef& deviceRef);
+  DeviceInfo recoverInfo() const;
+  void close();
 
-  /// Recovers all devices connected to the computer.
+  /// Recovers all connected devices.
   /// \param connection Current opened connection.
-  /// \return List of devices information.
-  static std::vector<DeviceInfo> recoverDevices(const Connection& connection);
+  /// \return List of device references.
+  static std::vector<DeviceRef> recoverDevices(const Connection& connection);
 
   Device& operator=(const Device&) = delete;
   Device& operator=(Device&& device) noexcept { std::swap(m_device, device.m_device); return *this; }
 
-  ~Device();
+  ~Device() { close(); }
 
 private:
   LEAP_DEVICE m_device {};
