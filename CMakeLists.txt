@@ -50,6 +50,15 @@ file(
     ${LEAPP_SRC}
 )
 
+###################
+# Leapp - LeapSDK #
+###################
+
+find_package(LeapSDK REQUIRED)
+
+target_include_directories(Leapp SYSTEM PUBLIC ${LEAPSDK_INCLUDE_DIRS})
+target_link_libraries(Leapp PUBLIC ${LEAPSDK_LIBS})
+
 #################
 # Leapp - Build #
 #################
