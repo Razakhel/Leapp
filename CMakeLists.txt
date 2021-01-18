@@ -37,9 +37,12 @@ set(
     LEAPP_SRC
 
     src/*.cpp
+    src/Leapp/*.cpp
 
     include/*.hpp
     include/*.inl
+    include/Leapp/*.hpp
+    include/Leapp/*.inl
 )
 
 # Adding every file to be compiled
