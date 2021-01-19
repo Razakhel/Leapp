@@ -19,7 +19,7 @@ Device::Device(const Connection& connection) {
   open(devices.front());
 }
 
-void Device::open(const DeviceRef& deviceRef) {
+void Device::open(const DeviceRef& deviceRef) noexcept {
   const auto deviceOpenResult = static_cast<Result>(LeapOpenDevice(*reinterpret_cast<const LEAP_DEVICE_REF*>(&deviceRef), &m_device));
 
   if (deviceOpenResult != Result::SUCCESS)
@@ -41,6 +41,7 @@ DeviceInfo Device::recoverInfo() const {
     std::cerr << "[Leapp] Error: Failed to recover device info (" << recoverResultStr(deviceInfoResult) << ")\n";
 
   DeviceInfo res {};
+  res.status        = static_cast<DeviceStatus>(deviceInfo.status);
   res.baseline      = deviceInfo.baseline;
   res.serial        = deviceInfo.serial;
   res.horizontalFov = deviceInfo.h_fov;
@@ -52,7 +53,7 @@ DeviceInfo Device::recoverInfo() const {
   return res;
 }
 
-void Device::close() {
+void Device::close() noexcept {
   if (m_device == nullptr)
     return;
 

@@ -58,15 +58,15 @@ constexpr const char* recoverEventTypeStr(EventType type) {
 
 class Connection {
 public:
-  Connection();
+  Connection() noexcept;
   Connection(const Connection&) = delete;
   Connection(Connection&& connection) noexcept : m_connection{ std::exchange(connection.m_connection, nullptr) } {}
 
   LEAP_CONNECTION getConnection() const noexcept { return m_connection; }
 
-  void open() const;
-  EventType poll() const;
-  void close() const;
+  void open() const noexcept;
+  EventType poll() const noexcept;
+  void close() const noexcept;
 
   Connection& operator=(const Connection&) = delete;
   Connection& operator=(Connection&& connection) noexcept { std::swap(m_connection, connection.m_connection); return *this; }

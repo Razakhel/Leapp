@@ -6,7 +6,7 @@
 
 namespace Leapp {
 
-Connection::Connection() {
+Connection::Connection() noexcept {
   const auto connectionStatus = static_cast<Result>(LeapCreateConnection(nullptr, &m_connection));
 
   if (connectionStatus != Result::SUCCESS)
@@ -16,14 +16,14 @@ Connection::Connection() {
   poll(); // Polling once to complete connection
 }
 
-void Connection::open() const {
+void Connection::open() const noexcept {
   const auto connectionStatus = static_cast<Result>(LeapOpenConnection(m_connection));
 
   if (connectionStatus != Result::SUCCESS)
     std::cerr << "[Leapp] Error: Failed to open connection (" << recoverResultStr(connectionStatus) << ")\n";
 }
 
-EventType Connection::poll() const {
+EventType Connection::poll() const noexcept {
   LEAP_CONNECTION_MESSAGE message {};
   const auto pollStatus = static_cast<Result>(LeapPollConnection(m_connection, 250, &message));
 
@@ -33,7 +33,7 @@ EventType Connection::poll() const {
   return static_cast<EventType>(message.type);
 }
 
-void Connection::close() const {
+void Connection::close() const noexcept {
   LeapCloseConnection(m_connection);
 }
 
