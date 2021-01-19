@@ -3,6 +3,7 @@
 #ifndef LEAPP_CONNECTION_HPP
 #define LEAPP_CONNECTION_HPP
 
+#include <cstdint>
 #include <utility>
 
 struct _LEAP_CONNECTION;
@@ -56,6 +57,12 @@ constexpr const char* recoverEventTypeStr(EventType type) {
   }
 }
 
+/// Data resulting of each event.
+struct EventData {
+  EventType type;     ///< Event type.
+  uint32_t handCount; ///< Number of hands detected.
+};
+
 class Connection {
 public:
   Connection() noexcept;
@@ -65,7 +72,7 @@ public:
   LEAP_CONNECTION getConnection() const noexcept { return m_connection; }
 
   void open() const noexcept;
-  EventType poll() const noexcept;
+  EventData poll() const noexcept;
   void close() const noexcept;
 
   Connection& operator=(const Connection&) = delete;

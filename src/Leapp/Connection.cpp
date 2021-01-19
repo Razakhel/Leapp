@@ -23,14 +23,14 @@ void Connection::open() const noexcept {
     std::cerr << "[Leapp] Error: Failed to open connection (" << recoverResultStr(connectionStatus) << ")\n";
 }
 
-EventType Connection::poll() const noexcept {
+EventData Connection::poll() const noexcept {
   LEAP_CONNECTION_MESSAGE message {};
   const auto pollStatus = static_cast<Result>(LeapPollConnection(m_connection, 250, &message));
 
   if (pollStatus != Result::SUCCESS)
     std::cerr << "[Leapp] Error: Failed to poll connection (" << recoverResultStr(pollStatus) << ")\n";
 
-  return static_cast<EventType>(message.type);
+  return { static_cast<EventType>(message.type), message.tracking_event->nHands };
 }
 
 void Connection::close() const noexcept {
