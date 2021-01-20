@@ -31,7 +31,7 @@ EventData Connection::poll() const noexcept {
   if (pollStatus != Result::SUCCESS)
     std::cerr << "[Leapp] Error: Failed to poll connection (" << recoverResultStr(pollStatus) << ")\n";
 
-  return { static_cast<EventType>(message.type), message.tracking_event->nHands };
+  return EventData(message);
 }
 
 void Connection::close() const noexcept {

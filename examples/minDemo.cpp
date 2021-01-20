@@ -32,26 +32,27 @@ int main() {
 
   while (true) {
     const Leapp::EventData eventData = connection.poll();
+    const Leapp::EventType eventType = eventData.getType();
 
     // Print a message only when starting and stopping tracking, to avoid cluttering the console output
-    if (!isTracking && eventData.type == Leapp::EventType::TRACKING) {
+    if (!isTracking && eventType == Leapp::EventType::TRACKING) {
       std::cout << "Started tracking...\n";
       isTracking = true;
-    } else if (isTracking && eventData.type != Leapp::EventType::TRACKING) {
+    } else if (isTracking && eventType != Leapp::EventType::TRACKING) {
       std::cout << "Stopped tracking\n";
       isTracking = false;
     }
 
-    if (handCount != eventData.handCount) {
-      handCount = eventData.handCount;
+    if (handCount != eventData.getHandCount()) {
+      handCount = eventData.getHandCount();
       std::cout << "Detected " << handCount << " hand(s)\n";
     }
 
     if (!isTracking)
-      std::cout << "Status: " << Leapp::recoverEventTypeStr(eventData.type) << '\n';
+      std::cout << "Status: " << Leapp::recoverEventTypeStr(eventType) << '\n';
 
     // If the connection has been severed (for example by unplugging the Leap Motion), stop the application
-    if (eventData.type == Leapp::EventType::DEVICE_LOST)
+    if (eventType == Leapp::EventType::DEVICE_LOST)
       break;
   }
 

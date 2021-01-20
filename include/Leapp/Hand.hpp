@@ -8,6 +8,8 @@
 namespace Leapp {
 
 class Palm {
+  friend class EventData;
+
 public:
   constexpr Palm() = default;
 
@@ -35,6 +37,8 @@ enum class HandType {
 };
 
 class Hand {
+  friend class EventData;
+
 public:
   constexpr Hand() = default;
 

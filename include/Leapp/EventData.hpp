@@ -63,9 +63,19 @@ constexpr const char* recoverEventTypeStr(EventType type) {
 }
 
 /// Data resulting of each event.
-struct EventData {
-  EventType type;     ///< Event type.
-  uint32_t handCount; ///< Number of hands detected.
+class EventData {
+public:
+  explicit EventData(const LEAP_CONNECTION_MESSAGE& message);
+
+  EventType getType() const noexcept { return m_type; }
+  const Hand& getHand(uint32_t handIndex) const noexcept { return m_hands[handIndex]; }
+  uint32_t getHandCount() const noexcept { return static_cast<uint32_t>(m_hands.size()); }
+
+private:
+  void addHands(const LEAP_HAND* hands, uint32_t handCount);
+
+  EventType m_type {};          ///< Event type.
+  std::vector<Hand> m_hands {}; ///< Hands detected.
 };
 
 } // namespace Leapp
