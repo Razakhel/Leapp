@@ -27,8 +27,7 @@ int main() {
     }
   }
 
-  bool isTracking    = false;
-  uint32_t handCount = 0;
+  bool isTracking = false;
 
   while (true) {
     const Leapp::EventData eventData = connection.poll();
@@ -41,11 +40,6 @@ int main() {
     } else if (isTracking && eventType != Leapp::EventType::TRACKING) {
       std::cout << "Stopped tracking\n";
       isTracking = false;
-    }
-
-    if (handCount != eventData.getHandCount()) {
-      handCount = eventData.getHandCount();
-      std::cout << "Detected " << handCount << " hand(s)\n";
     }
 
     if (!isTracking)

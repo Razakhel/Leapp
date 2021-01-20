@@ -34,8 +34,11 @@ endif ()
 
 target_compile_options(Leapp_Examples INTERFACE ${LEAPP_EXAMPLES_DISABLED_WARNINGS})
 
-add_executable(Leapp_MinDemo minDemo.cpp)
-target_link_libraries(Leapp_MinDemo Leapp_Examples)
+add_executable(Leapp_StatusDemo statusDemo.cpp)
+target_link_libraries(Leapp_StatusDemo Leapp_Examples)
+
+add_executable(Leapp_TrackingDemo trackingDemo.cpp)
+target_link_libraries(Leapp_TrackingDemo Leapp_Examples)
 
 if (WIN32)
     if (NOT MSVC)
@@ -52,6 +55,7 @@ if (WIN32)
 
         set(${DLL_COPY_COMMAND} ${CMAKE_COMMAND} -E copy "${LEAPSDK_DLL}" "${LEAPSDK_DLL_DEST}")
 
-        add_custom_command(TARGET Leapp_MinDemo PRE_LINK COMMAND ${DLL_COPY_COMMAND})
+        add_custom_command(TARGET Leapp_StatusDemo   PRE_LINK COMMAND ${DLL_COPY_COMMAND})
+        add_custom_command(TARGET Leapp_TrackingDemo PRE_LINK COMMAND ${DLL_COPY_COMMAND})
     endif ()
 endif ()
