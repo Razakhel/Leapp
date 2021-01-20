@@ -1,4 +1,5 @@
 #include "Leapp/Connection.hpp"
+#include "Leapp/EventData.hpp"
 #include "Leapp/Leapp.hpp"
 #include "Leapp/Result.hpp"
 

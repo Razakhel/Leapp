@@ -1,5 +1,6 @@
 #include "Leapp/Connection.hpp"
 #include "Leapp/Device.hpp"
+#include "Leapp/EventData.hpp"
 
 #include <iostream>
 
