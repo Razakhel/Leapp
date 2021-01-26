@@ -25,6 +25,17 @@ void EventData::addHands(const LEAP_HAND* hands, uint32_t handCount) {
     hand.m_palm.m_width          = leapPalm.width;
     hand.m_palm.m_direction      = leapPalm.direction;
     hand.m_palm.m_orientation    = leapPalm.orientation;
+
+    addFingers(hand, leapHand.digits);
+  }
+}
+
+void EventData::addFingers(Hand& hand, const LEAP_DIGIT (&fingers)[5]) {
+  for (uint8_t fingerIndex = 0; fingerIndex < 5; ++fingerIndex) {
+    const LEAP_DIGIT& leapFinger = fingers[fingerIndex];
+    Finger& finger = hand.m_fingers[fingerIndex];
+
+    finger.m_isExtended = leapFinger.is_extended;
   }
 }
 

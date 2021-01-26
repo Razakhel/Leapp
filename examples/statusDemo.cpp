@@ -33,6 +33,10 @@ int main() {
     const Leapp::EventData eventData = connection.poll();
     const Leapp::EventType eventType = eventData.getType();
 
+    // If the connection has been severed (for example by unplugging the Leap Motion), stop the application
+    if (eventType == Leapp::EventType::DEVICE_LOST)
+      break;
+
     // Print a message only when starting and stopping tracking, to avoid cluttering the console output
     if (!isTracking && eventType == Leapp::EventType::TRACKING) {
       std::cout << "Started tracking...\n";
@@ -44,10 +48,6 @@ int main() {
 
     if (!isTracking)
       std::cout << "Status: " << Leapp::recoverEventTypeStr(eventType) << '\n';
-
-    // If the connection has been severed (for example by unplugging the Leap Motion), stop the application
-    if (eventType == Leapp::EventType::DEVICE_LOST)
-      break;
   }
 
   return 0;

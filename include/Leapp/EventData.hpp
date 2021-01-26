@@ -14,6 +14,9 @@ using LEAP_CONNECTION_MESSAGE = _LEAP_CONNECTION_MESSAGE;
 struct _LEAP_HAND;
 using LEAP_HAND = _LEAP_HAND;
 
+struct _LEAP_DIGIT;
+using LEAP_DIGIT = _LEAP_DIGIT;
+
 namespace Leapp {
 
 enum class EventType {
@@ -73,6 +76,7 @@ public:
 
 private:
   void addHands(const LEAP_HAND* hands, uint32_t handCount);
+  void addFingers(Hand& hand, const LEAP_DIGIT (&fingers)[5]);
 
   EventType m_type {};          ///< Event type.
   std::vector<Hand> m_hands {}; ///< Hands detected.

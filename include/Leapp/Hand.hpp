@@ -5,6 +5,8 @@
 
 #include "Leapp/Math.hpp"
 
+#include <array>
+
 namespace Leapp {
 
 class Palm {
@@ -31,6 +33,16 @@ private:
   Quaternion m_orientation {};
 };
 
+class Finger {
+  friend class EventData;
+
+public:
+  constexpr bool isExtended() const noexcept { return m_isExtended; }
+
+private:
+  bool m_isExtended {};
+};
+
 enum class HandType {
   LEFT  /* eLeapHandType_Left  */,
   RIGHT /* eLeapHandType_Right */
@@ -44,10 +56,16 @@ public:
 
   constexpr HandType getType() const noexcept { return m_type; }
   constexpr const Palm& getPalm() const noexcept { return m_palm; }
+  constexpr const Finger& getThumb() const noexcept { return m_fingers[0]; }
+  constexpr const Finger& getIndex() const noexcept { return m_fingers[1]; }
+  constexpr const Finger& getMiddle() const noexcept { return m_fingers[2]; }
+  constexpr const Finger& getRing() const noexcept { return m_fingers[3]; }
+  constexpr const Finger& getPinky() const noexcept { return m_fingers[4]; }
 
 private:
   HandType m_type {};
   Palm m_palm {};
+  std::array<Finger, 5> m_fingers {};
 };
 
 } // namespace Leapp

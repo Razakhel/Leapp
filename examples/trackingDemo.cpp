@@ -9,6 +9,10 @@ int main() {
   while (true) {
     const Leapp::EventData eventData = connection.poll();
 
+    // If the connection has been severed (for example by unplugging the Leap Motion), stop the application
+    if (eventData.getType() == Leapp::EventType::DEVICE_LOST)
+      break;
+
     const uint32_t handCount = eventData.getHandCount();
 
     if (handCount > 0) {
@@ -19,12 +23,11 @@ int main() {
 
         std::cout << "\t- " << (hand.getType() == Leapp::HandType::RIGHT ? "Right" : "Left") << " hand\n";
         std::cout << "\t  Palm position: " << hand.getPalm().getPosition() << '\n';
+
+        if (hand.getIndex().isExtended())
+          std::cout << "\t  Index extended\n";
       }
     }
-
-    // If the connection has been severed (for example by unplugging the Leap Motion), stop the application
-    if (eventData.getType() == Leapp::EventType::DEVICE_LOST)
-      break;
   }
 
   return 0;
