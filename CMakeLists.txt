@@ -75,6 +75,13 @@ if (LEAPP_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif ()
 
+# Allows to generate the documentation
+find_package(Doxygen)
+option(LEAPP_GEN_DOC "Generate documentation (requires Doxygen)" ${DOXYGEN_FOUND})
+if (LEAPP_GEN_DOC)
+    add_subdirectory(doc)
+endif ()
+
 ########################
 # Leapp - Installation #
 ########################
