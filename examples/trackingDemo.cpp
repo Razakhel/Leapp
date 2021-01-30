@@ -24,8 +24,12 @@ int main() {
         std::cout << "\t- " << (hand.getType() == Leapp::HandType::RIGHT ? "Right" : "Left") << " hand\n";
         std::cout << "\t  Palm position: " << hand.getPalm().getPosition() << '\n';
 
-        if (hand.getIndex().isExtended())
+        const Leapp::Finger& index = hand.getIndex();
+
+        if (index.isExtended()) {
           std::cout << "\t  Index extended\n";
+          std::cout << "\t  Index tip: " << index.getTipPosition() << '\n';
+        }
       }
     }
   }

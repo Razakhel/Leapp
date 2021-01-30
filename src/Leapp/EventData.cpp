@@ -35,6 +35,16 @@ void EventData::addFingers(Hand& hand, const LEAP_DIGIT (&fingers)[5]) {
     const LEAP_DIGIT& leapFinger = fingers[fingerIndex];
     Finger& finger = hand.m_fingers[fingerIndex];
 
+    for (uint8_t boneIndex = 0; boneIndex < 4; ++boneIndex) {
+      const LEAP_BONE& leapFingerBone = leapFinger.bones[boneIndex];
+      Bone& fingerBone = finger.m_bones[boneIndex];
+
+      fingerBone.m_nearPosition = leapFingerBone.prev_joint;
+      fingerBone.m_farPosition  = leapFingerBone.next_joint;
+      fingerBone.m_width        = leapFingerBone.width;
+      fingerBone.m_rotation     = leapFingerBone.rotation;
+    }
+
     finger.m_isExtended = leapFinger.is_extended;
   }
 }

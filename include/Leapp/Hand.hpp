@@ -33,13 +33,40 @@ private:
   Quaternion m_orientation {};
 };
 
+class Bone {
+  friend class EventData;
+
+public:
+  constexpr const Vector& getNearPosition() const noexcept { return m_nearPosition; }
+  constexpr const Vector& getFarPosition() const noexcept { return m_farPosition; }
+  constexpr float getWidth() const noexcept { return m_width; }
+  constexpr const Quaternion& getRotation() const noexcept { return m_rotation; }
+
+private:
+  Vector m_nearPosition {};
+  Vector m_farPosition {};
+  float m_width {}; ///< Average width of the flesh around the bone in millimeters.
+  Quaternion m_rotation {};
+};
+
+/// Finger class representing a detected finger.
+///
+/// Finger bones are represented as follows (from [LeapC's official documentation](https://developer.leapmotion.com/documentation/v4/concepts.html#digit_concept)):
+/// \image html https://developer.leapmotion.com/documentation/v4/hand_bones.svg "Finger bones"
 class Finger {
   friend class EventData;
 
 public:
   constexpr bool isExtended() const noexcept { return m_isExtended; }
+  constexpr const Bone& getMetacarpalBone() const noexcept { return m_bones[0]; }
+  constexpr const Bone& getProximalBone() const noexcept { return m_bones[1]; }
+  constexpr const Bone& getIntermediateBone() const noexcept { return m_bones[2]; }
+  constexpr const Bone& getDistalBone() const noexcept { return m_bones[3]; }
+  constexpr const Vector& getTipPosition() const noexcept { return getDistalBone().getFarPosition(); }
+  constexpr const Vector& getBasePosition() const noexcept { return getMetacarpalBone().getNearPosition(); }
 
 private:
+  std::array<Bone, 4> m_bones {};
   bool m_isExtended {};
 };
 
