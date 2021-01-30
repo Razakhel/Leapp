@@ -1,7 +1,8 @@
 #include "Leapp/Connection.hpp"
 #include "Leapp/Device.hpp"
-#include "Leapp/Leapp.hpp"
 #include "Leapp/Result.hpp"
+
+#include <LeapC.h>
 
 #include <cassert>
 #include <iostream>

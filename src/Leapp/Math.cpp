@@ -1,5 +1,6 @@
 #include "Leapp/Math.hpp"
-#include "Leapp/Leapp.hpp"
+
+#include <LeapC.h>
 
 namespace Leapp {
 

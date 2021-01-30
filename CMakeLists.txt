@@ -29,6 +29,17 @@ target_compile_features(Leapp PRIVATE cxx_std_17)
 include(CompilerFlags)
 add_compiler_flags(Leapp PRIVATE)
 
+if (MSVC)
+    set(
+        LEAPP_DISABLED_WARNINGS
+
+        # Warnings triggered by LeapC
+        /wd4201 # Non-standard extension used: nameless struct/union
+    )
+endif ()
+
+target_compile_options(Leapp PRIVATE ${LEAPP_DISABLED_WARNINGS})
+
 ########################
 # Leapp - Source files #
 ########################

@@ -1,5 +1,6 @@
 #include "Leapp/EventData.hpp"
-#include "Leapp/Leapp.hpp"
+
+#include <LeapC.h>
 
 namespace Leapp {
 
@@ -45,7 +46,7 @@ void EventData::addFingers(Hand& hand, const LEAP_DIGIT (&fingers)[5]) {
       fingerBone.m_rotation     = leapFingerBone.rotation;
     }
 
-    finger.m_isExtended = leapFinger.is_extended;
+    finger.m_isExtended = static_cast<bool>(leapFinger.is_extended);
   }
 }
 
